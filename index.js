@@ -8,10 +8,11 @@ var fileName = null;
 // Make up a temp file
 ['TMPDIR', 'TMP', 'TEMP'].forEach(function(td) {
     if (!fileName && process.env[td])
-        fileName = path.join(process.env[td], "typescript-require-" + Date.now() + ".js");
+        fileName = process.env[td];
 });
 
-fileName = fileName || "/tmp";
+fileName = path.join((fileName || "/tmp"), "typescript-require-" + Date.now() + ".js");
+
 var contents = [
     "(function() {",
     fs.readFileSync(path.join(__dirname, "/node_modules/typescript/bin/typescript.js"), "utf8"),
