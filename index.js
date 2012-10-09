@@ -51,7 +51,7 @@ require.extensions['.ts'] = function(module) {
     var resolver = new TypeScript.CodeResolver(env);
     var fpath = TypeScript.switchToForwardSlashes(module.filename);
 
-    var units = [path.join(__dirname, "/node_modules/typescript/bin/lib.d.ts"), fpath];
+    var units = [path.join(__dirname, "./typings/lib.d.ts"), path.join(__dirname, "./typings/node.d.ts")];
 
     resolver.resolveCode(fpath, "", false, {
         postResolution: function(p, code) {
@@ -85,6 +85,14 @@ require.extensions['.ts'] = function(module) {
             return nulloutput;
     });
 
-    (new Function('module', 'exports', 'require', 'global', js)).call(global, module, module.exports, require, global);
-    return module.exports;
+    (new Function('module', 'exports', 'require', 'global', js)).call(global, module, module.exports, function(id) {
+        try {
+            return require(path.resolve(path.dirname(module.filename), id + ".ts"));
+        } catch(e) {
+            if (e.code != 'MODULE_NOT_FOUND')
+                throw e;
+
+            return require(id);
+        }
+    }, global);
 };
