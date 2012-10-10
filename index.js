@@ -3,15 +3,12 @@ var path = require('path');
 
 var io = require("./io");
 
-var fileName = null;
-
-// Make up a temp file
+var tsTempFile = null;
 ['TMPDIR', 'TMP', 'TEMP'].forEach(function(td) {
-    if (!fileName && process.env[td])
-        fileName = process.env[td];
+    if (!tsTempFile && process.env[td])
+        tsTempFile = process.env[td];
 });
-
-fileName = path.join((fileName || "/tmp"), "typescript-require-" + Date.now() + ".js");
+tsTempFile = path.join((tsTempFile || "/tmp"), "typescript-require-" + Date.now() + ".js");
 
 var contents = [
     "(function() {",
@@ -19,12 +16,12 @@ var contents = [
     "module.exports = TypeScript;",
     "}).call({});"
 ].join("");
-fs.writeFileSync(fileName, contents, "utf8");
+fs.writeFileSync(tsTempFile, contents, "utf8");
 
-var TypeScript = require(fileName);
+var TypeScript = module.exports.TypeScript = require(tsTempFile);
 TypeScript.moduleGenTarget = TypeScript.ModuleGenTarget.Synchronous;
 
-fs.unlinkSync(fileName);
+fs.unlinkSync(tsTempFile);
 
 require.extensions['.ts'] = function(module) {
     var js = '';
@@ -47,44 +44,71 @@ require.extensions['.ts'] = function(module) {
     settings.resolve = true;
 
     var env = new TypeScript.CompilationEnvironment(settings, io);
-
     var resolver = new TypeScript.CodeResolver(env);
-    var fpath = TypeScript.switchToForwardSlashes(module.filename);
 
-    var units = [path.join(__dirname, "./typings/lib.d.ts"), path.join(__dirname, "./typings/node.d.ts")];
+    var moduleFilename = TypeScript.switchToForwardSlashes(module.filename);
 
-    resolver.resolveCode(fpath, "", false, {
-        postResolution: function(p, code) {
-            if (units.indexOf(p) < 0)
-                units.push(p);
+    var units = [
+        { fileName: path.join(__dirname, "./typings/lib.d.ts") },
+        { fileName: path.join(__dirname, "./typings/node.d.ts") }
+    ];
+
+    resolver.resolveCode(moduleFilename, "", false, {
+        postResolution: function(file, code) {
+            if (!units.some(function(u) { return u.fileName == code.path }))
+                units.push({ fileName: code.path, code: code.content });
         },
         postResolutionError: function(file, message) {
             throw new Error('TypeScript Error: ' + message + '\n File: ' + file);
         }
     });
 
-    var compiler = new TypeScript.TypeScriptCompiler(output, output, new TypeScript.NullLogger(), settings);
-
+    var compiler = new TypeScript.TypeScriptCompiler(null, null, new TypeScript.NullLogger(), settings);
     compiler.parser.errorRecovery = true;
 
     compiler.setErrorCallback(function(start, len, message, block) {
-        var error = new Error('TypeScript Error: ' + message + '\n File: ' + units[block] + ' Start position: ' + start + ' Length: ' + len);
-        error.stack = '';
+        var code = units[block].code;
+
+        var line = [
+            code.substr(0, start).split('\n').slice(-1)[0].replace(/^\s+/, ""),
+            code.substr(start, len),
+            code.substr(start + len).split('\n').slice(0, 1)[0].replace(/\s+$/, "")
+        ];
+
+        var underline = [
+            line[0].replace(/./g, '-'),
+            line[1].replace(/./g, '^'),
+            line[2].replace(/./g, '-'),
+        ];
+
+        var error = new Error('TypeScript Error: ' + message);
+        error.stack = [
+            'TypeScript Error: ' + message,
+            'File: ' + units[block].fileName,
+            'Start: ' + start + ', Length: ' + len,
+            '',
+            'Line: ' + line.join(""),
+            '------' + underline.join("")
+        ].join('\n')
+
         throw error;
     });
 
     units.forEach(function(u) {
-        compiler.addUnit(fs.readFileSync(u, "utf8"), u, false);
+        if (!u.code)
+            u.code = fs.readFileSync(u.fileName, "utf8");
+
+        compiler.addUnit(u.code, u.fileName, false);
     });
 
     compiler.typeCheck();
 
     compiler.emit(true, function(fn) {
-        if (fn == fpath.replace(/\.ts$/, ".js"))
+        if (fn == moduleFilename.replace(/\.ts$/, ".js"))
             return output;
         else
             return nulloutput;
     });
 
-    module._compile(js, fpath);
+    module._compile(js, moduleFilename);
 };
