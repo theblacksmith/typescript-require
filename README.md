@@ -36,13 +36,28 @@ and compile the TypeScript file, resolving any necessary dependencies to other s
         return val.toUpperCase();
     }
 
-You should know that;
-I've been toying with TypeScript for just a couple of hours now, so I might have some weird bugs here.
+# Module Dependencies in TS files
+You can load any other TypeScript or Javascript module from your typescripts. However, you should
+use different methods for different modules
+
+### sample.ts
+Given that there are two files, `foomodule.js` and `barmodule.ts` at the same directory as sample.ts
+
+    // Load a JavaScript module with standard Node.JS require
+    var foomodule = require('./foomodule.js');
+
+    // Load a TypeScript module with TypeScript module syntax
+    import barmodule = module('barmodule');
+
+Note that the second one essentially gets compiled to a `require` call just like the first one. However,
+`import ... module` syntax makes it possible to use TyepScript compile time validation features (like type checking).
 
 Developed By
 ============
 
-* Ekin Koc - <ekin@eknkc.com>
+Ekin Koc - <ekin@eknkc.com>
+
+**Note:** I've been toying with TypeScript for just a couple of hours now, so I might have some weird bugs here.
 
 License
 =======
