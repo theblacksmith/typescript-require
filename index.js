@@ -66,6 +66,7 @@ require.extensions['.ts'] = function(module) {
     var compiler = new TypeScript.TypeScriptCompiler(output, output, new TypeScript.NullLogger(), settings);
 
     compiler.parser.errorRecovery = true;
+
     compiler.setErrorCallback(function(start, len, message, block) {
         var error = new Error('TypeScript Error: ' + message + '\n File: ' + units[block] + ' Start position: ' + start + ' Length: ' + len);
         error.stack = '';
@@ -85,14 +86,5 @@ require.extensions['.ts'] = function(module) {
             return nulloutput;
     });
 
-    (new Function('module', 'exports', 'require', 'global', js)).call(global, module, module.exports, function(id) {
-        try {
-            return require(path.resolve(path.dirname(module.filename), id + ".ts"));
-        } catch(e) {
-            if (e.code != 'MODULE_NOT_FOUND')
-                throw e;
-
-            return require(id);
-        }
-    }, global);
+    module._compile(js, fpath);
 };
