@@ -57,8 +57,6 @@ Developed By
 
 Ekin Koc - <ekin@eknkc.com>
 
-**Note:** I've been toying with TypeScript for just a couple of hours now, so I might have some weird bugs here.
-
 License
 =======
 
