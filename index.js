@@ -49,8 +49,8 @@ require.extensions['.ts'] = function(module) {
     var moduleFilename = TypeScript.switchToForwardSlashes(module.filename);
 
     var units = [
-        { fileName: path.join(__dirname, "./typings/lib.d.ts") },
-        { fileName: path.join(__dirname, "./typings/node.d.ts") }
+        { fileName: path.join(__dirname, "./typings/lib.d.ts") }
+        //{ fileName: path.join(__dirname, "./typings/node.d.ts") }
     ];
 
     resolver.resolveCode(moduleFilename, "", false, {
@@ -63,7 +63,7 @@ require.extensions['.ts'] = function(module) {
         }
     });
 
-    var compiler = new TypeScript.TypeScriptCompiler(null, null, new TypeScript.NullLogger(), settings);
+    var compiler = new TypeScript.TypeScriptCompiler(null, new TypeScript.NullLogger(), settings);
     compiler.parser.errorRecovery = true;
 
     compiler.setErrorCallback(function(start, len, message, block) {
@@ -103,7 +103,7 @@ require.extensions['.ts'] = function(module) {
 
     compiler.typeCheck();
 
-    compiler.emit(true, function(fn) {
+    compiler.emit(function(fn) {
         if (fn == moduleFilename.replace(/\.ts$/, ".js"))
             return output;
         else
