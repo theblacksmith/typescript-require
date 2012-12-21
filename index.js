@@ -12,7 +12,7 @@ tsTempFile = path.join((tsTempFile || "/tmp"), "typescript-require-" + Date.now(
 
 var contents = [
     "(function() {",
-    fs.readFileSync(path.join(__dirname, "/node_modules/typescript/bin/typescript.js"), "utf8"),
+    fs.readFileSync(require.resolve("typescript"), "utf8"),
     "module.exports = TypeScript;",
     "}).call({});"
 ].join("");

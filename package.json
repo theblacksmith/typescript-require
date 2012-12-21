@@ -6,7 +6,7 @@
     "name": "Ekin Koc",
     "email": "ekin@eknkc.com"
   },
-  "version": "0.1.6",
+  "version": "0.1.6-lshift",
   "main": "./index.js",
   "repository": {
     "type": "git",
