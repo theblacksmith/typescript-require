@@ -1,3 +1,4 @@
+///<reference path='node.d.ts'/>
 import tsmodule = module("tsmodule");
 var jsmodule = require("./jsmodule.js");
 

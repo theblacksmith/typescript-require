@@ -6,14 +6,14 @@
     "name": "Ekin Koc",
     "email": "ekin@eknkc.com"
   },
-  "version": "0.1.6",
+  "version": "0.1.6-lshift",
   "main": "./index.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:eknkc/typescript-require.git"
   },
   "dependencies": {
-    "typescript": ""
+    "typescript": ">= 0.8.1-1"
   },
   "keywords": ["typescript", "require"],
   "devDependencies": {},
