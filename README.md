@@ -36,6 +36,23 @@ and compile the TypeScript file, resolving any necessary dependencies to other s
         return val.toUpperCase();
     }
 
+# Configuration
+It is possible to configure the require extension upon initialization:
+
+    // Initialize
+    require('typescript-require')({
+        nodeLib: false,
+        targetES5: true
+    });
+
+### nodeLib [boolean] (default: false)
+If **true** `node.d.ts` definitions file is loaded before custom ts files. This is disabled by default and you should use
+    ///<reference path='node.d.ts'/>
+at the beginning of your ts modules.
+
+### targetES5 [boolean] (default: true)
+Target ES5 / ES3 output mode.
+
 # Module Dependencies in TS files
 You can load any other TypeScript or Javascript module from your typescripts. However, you should
 use different methods for different modules
@@ -44,7 +61,7 @@ use different methods for different modules
 Given that there are two files, `foomodule.js` and `barmodule.ts` at the same directory as sample.ts
 
     ///<reference path='node.d.ts'/>
-    
+
     // Load a JavaScript module with standard Node.JS require
     var foomodule = require('./foomodule.js');
 

@@ -4,25 +4,36 @@ var fs = require('fs');
 var path = require('path');
 
 var tsc = require.resolve("typescript").replace(/typescript\.js$/, "tsc.js");
-var tscScript = vm.createScript('(function() { ' + fs.readFileSync(tsc, "utf8") + '})();', tsc);
+var tscScript = vm.createScript(fs.readFileSync(tsc, "utf8"), tsc);
+
+var options = {
+  nodeLib: false,
+  targetES5: true
+};
+
+module.exports = function(opts) {
+  options = merge(options, opts);
+};
 
 require.extensions['.ts'] = function(module) {
   var exitCode = 0;
   var tmpDir = path.join(os.tmpDir(), "tsreq_" + Math.floor(Math.random() * 0xFFFFFFFF));
 
+  var argv = [
+    "node",
+    "tsc.js",
+    "--nolib",
+    "--target",
+    options.targetES5 ? "ES5" : "ES3",
+    "--out",
+    tmpDir,
+    path.resolve(__dirname, "typings/lib.d.ts"),
+    options.nodeLib ? path.resolve(__dirname, "typings/node.d.ts") : null,
+    module.filename
+  ];
+
   var proc = merge(merge({}, process), {
-    argv: [
-      "node",
-      "tsc.js",
-      "--nolib",
-      "--target",
-      "ES5",
-      "--out",
-      tmpDir,
-      path.resolve(__dirname, "typings/lib.d.ts"),
-      path.resolve(__dirname, "typings/node.d.ts"),
-      module.filename
-    ],
+    argv: compact(argv),
     exit: function(code) {
       exitCode = code;
     }
@@ -44,10 +55,18 @@ require.extensions['.ts'] = function(module) {
 };
 
 function merge(a, b) {
-    if (a && b) {
-        for (var key in b) {
-            a[key] = b[key];
-        }
+  if (a && b) {
+    for (var key in b) {
+      a[key] = b[key];
     }
-    return a;
+  }
+  return a;
 };
+
+function compact(arr) {
+  var narr = [];
+  arr.forEach(function (data) {
+    if (data) narr.push(data);
+  });
+  return narr;
+}
