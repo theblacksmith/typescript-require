@@ -45,12 +45,14 @@ It is possible to configure the require extension upon initialization:
         targetES5: true
     });
 
-### nodeLib [boolean] (default: false)
+### nodeLib [boolean] default: false
 If **true** `node.d.ts` definitions file is loaded before custom ts files. This is disabled by default and you should use
+
     ///<reference path='node.d.ts'/>
+
 at the beginning of your ts modules.
 
-### targetES5 [boolean] (default: true)
+### targetES5 [boolean] default: true
 Target ES5 / ES3 output mode.
 
 # Module Dependencies in TS files
