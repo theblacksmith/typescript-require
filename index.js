@@ -47,7 +47,7 @@ require.extensions['.ts'] = function(module) {
   tscScript.runInNewContext(sandbox);
 
   if (exitCode != 0) {
-    return null;
+    throw new Error('Unable to compile TypeScript file.');
   }
 
   var jsname = path.join(tmpDir, path.basename(module.filename, ".ts") + ".js");
