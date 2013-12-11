@@ -46,6 +46,7 @@ require.extensions['.ts'] = function(module) {
     process: proc,
     require: require,
 	module: module,
+	Buffer: Buffer,
 	setTimeout: setTimeout
   };
 
