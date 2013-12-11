@@ -28,7 +28,7 @@ require.extensions['.ts'] = function(module) {
     options.targetES5 ? "ES5" : "ES3",
 	!!options.moduleKind ? "--module" : "",
     !!options.moduleKind ? options.moduleKind : "",
-    "--out",
+    "--outDir",
     tmpDir,
     path.resolve(__dirname, "typings/lib.d.ts"),
     options.nodeLib ? path.resolve(__dirname, "typings/node.d.ts") : null,
