@@ -41,7 +41,9 @@ require.extensions['.ts'] = function(module) {
 
   var sandbox = {
     process: proc,
-    require: require
+    require: require,
+	module: module,
+	setTimeout: setTimeout
   };
 
   tscScript.runInNewContext(sandbox);
