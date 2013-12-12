@@ -25,9 +25,7 @@ require.extensions['.ts'] = function(module) {
     "tsc.js",
     "--nolib",
     "--target",
-    options.targetES5 ? "ES5" : "ES3",
-	!!options.moduleKind ? "--module" : "",
-    !!options.moduleKind ? options.moduleKind : "",
+    options.targetES5 ? "ES5" : "ES3", !! options.moduleKind ? "--module" : "", !! options.moduleKind ? options.moduleKind : "",
     "--outDir",
     tmpDir,
     path.resolve(__dirname, "typings/lib.d.ts"),
@@ -45,9 +43,9 @@ require.extensions['.ts'] = function(module) {
   var sandbox = {
     process: proc,
     require: require,
-	module: module,
-	Buffer: Buffer,
-	setTimeout: setTimeout
+    module: module,
+    Buffer: Buffer,
+    setTimeout: setTimeout
   };
 
   tscScript.runInNewContext(sandbox);
@@ -71,7 +69,7 @@ function merge(a, b) {
 
 function compact(arr) {
   var narr = [];
-  arr.forEach(function (data) {
+  arr.forEach(function(data) {
     if (data) narr.push(data);
   });
   return narr;
