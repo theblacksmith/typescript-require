@@ -6,7 +6,7 @@
     "name": "Ekin Koc",
     "email": "ekin@eknkc.com"
   },
-  "version": "0.2.2",
+  "version": "0.2.3",
   "main": "./index.js",
   "repository": {
     "type": "git",
@@ -15,7 +15,10 @@
   "dependencies": {
     "typescript": ">= 0.8.2"
   },
-  "keywords": ["typescript", "require"],
+  "keywords": [
+    "typescript",
+    "require"
+  ],
   "devDependencies": {},
   "optionalDependencies": {},
   "engines": {
