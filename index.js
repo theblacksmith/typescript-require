@@ -54,7 +54,7 @@ function compileTS (module) {
     require: require,
     module: module,
     Buffer: Buffer,
-    setTimeout: setTimeout,
+    setTimeout: setTimeout
   };
 
   tscScript.runInNewContext(sandbox);
