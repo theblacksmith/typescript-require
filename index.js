@@ -8,7 +8,8 @@ var tscScript = vm.createScript(fs.readFileSync(tsc, "utf8"), tsc);
 
 var options = {
   nodeLib: false,
-  targetES5: true
+  targetES5: true,
+  moduleKind: 'commonjs'
 };
 
 module.exports = function(opts) {
@@ -25,7 +26,9 @@ require.extensions['.ts'] = function(module) {
     "--nolib",
     "--target",
     options.targetES5 ? "ES5" : "ES3",
-    "--out",
+	!!options.moduleKind ? "--module" : "",
+    !!options.moduleKind ? options.moduleKind : "",
+    "--outDir",
     tmpDir,
     path.resolve(__dirname, "typings/lib.d.ts"),
     options.nodeLib ? path.resolve(__dirname, "typings/node.d.ts") : null,
@@ -41,7 +44,10 @@ require.extensions['.ts'] = function(module) {
 
   var sandbox = {
     process: proc,
-    require: require
+    require: require,
+	module: module,
+	Buffer: Buffer,
+	setTimeout: setTimeout
   };
 
   tscScript.runInNewContext(sandbox);
