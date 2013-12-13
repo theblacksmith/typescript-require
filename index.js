@@ -1,4 +1,3 @@
-var os = require('os');
 var vm = require('vm');
 var fs = require('fs');
 var path = require('path');
@@ -17,8 +16,34 @@ module.exports = function(opts) {
 };
 
 require.extensions['.ts'] = function(module) {
+  var jsname = compileTS(module);
+  runJS(jsname, module);
+};
+
+function isModified(tsname, jsname) {
+  var tsMTime = fs.statSync(tsname).mtime;
+
+  try {
+    var jsMTime = fs.statSync(jsname).mtime;
+  } catch (e) { //catch if file does not exists
+    jsMTime = 0;
+  }
+  
+  return tsMTime > jsMTime;
+}
+
+/**
+ * Compiles TypeScript file, returns js file path
+ * @return {string} js file path
+ */
+function compileTS (module) {
   var exitCode = 0;
-  var tmpDir = path.join(os.tmpDir(), "tsreq_" + Math.floor(Math.random() * 0xFFFFFFFF));
+  var tmpDir = path.join(process.cwd(), "tmp", "tsreq");
+  var jsname = path.join(tmpDir, path.basename(module.filename, ".ts") + ".js");
+
+  if (!isModified(module.filename, jsname)) {
+    return jsname;
+  }
 
   var argv = [
     "node",
@@ -49,14 +74,30 @@ require.extensions['.ts'] = function(module) {
   };
 
   tscScript.runInNewContext(sandbox);
-
   if (exitCode != 0) {
     throw new Error('Unable to compile TypeScript file.');
   }
 
-  var jsname = path.join(tmpDir, path.basename(module.filename, ".ts") + ".js");
-  module._compile(fs.readFileSync(jsname, 'utf8'), jsname);
-};
+  return jsname;
+}
+
+function runJS (jsname, module) {
+  var content = fs.readFileSync(jsname, 'utf8');
+
+  var sandbox = {};
+  for (var k in global) {
+    sandbox[k] = global[k];
+  }
+  sandbox.require = module.require.bind(module);
+  sandbox.exports = module.exports;
+  sandbox.__filename = jsname;
+  sandbox.__dirname = path.dirname(module.filename);
+  sandbox.module = module;
+  sandbox.global = sandbox;
+  sandbox.root = root;
+
+  return vm.runInNewContext(content, sandbox, { filename: jsname });
+}
 
 function merge(a, b) {
   if (a && b) {
