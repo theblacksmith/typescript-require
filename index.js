@@ -96,8 +96,6 @@ function runJS (jsname, module) {
   sandbox.global = sandbox;
   sandbox.root = root;
 
-  var a = require.resolve;
-
   return vm.runInNewContext(content, sandbox, { filename: jsname });
 }
 
