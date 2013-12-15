@@ -72,7 +72,7 @@ function runJS (jsname, module) {
   for (var k in global) {
     sandbox[k] = global[k];
   }
-  sandbox.require = require;
+  sandbox.require = module.require.bind(module);
   sandbox.exports = module.exports;
   sandbox.__filename = jsname;
   sandbox.__dirname = path.dirname(module.filename);;
