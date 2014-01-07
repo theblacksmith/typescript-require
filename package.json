@@ -6,6 +6,12 @@
     "name": "Ekin Koc",
     "email": "ekin@eknkc.com"
   },
+  "contributors": [
+    {
+      "name": "Szymon Wygnański",
+      "email": "s@finalclass.net"
+    } 
+  ],
   "version": "0.2.5",
   "main": "./index.js",
   "repository": {
