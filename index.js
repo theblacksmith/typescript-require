@@ -8,7 +8,8 @@ var tscScript = vm.createScript(fs.readFileSync(tsc, "utf8"), tsc);
 var options = {
   nodeLib: false,
   targetES5: true,
-  moduleKind: 'commonjs'
+  moduleKind: 'commonjs',
+  exitOnError: true
 };
 
 module.exports = function(opts) {
@@ -61,6 +62,10 @@ function compileTS (module) {
   var proc = merge(merge({}, process), {
     argv: compact(argv),
     exit: function(code) {
+      if (code !== 0 && options.exitOnError) {
+        console.error('Fatal Error. Unable to compile TypeScript file. Exiting.');
+        process.exit(code);
+      }
       exitCode = code;
     }
   });

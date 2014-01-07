@@ -42,7 +42,8 @@ It is possible to configure the require extension upon initialization:
     // Initialize
     require('typescript-require')({
         nodeLib: false,
-        targetES5: true
+        targetES5: true,
+        exitOnError: true
     });
 
 ### nodeLib [boolean] default: false
