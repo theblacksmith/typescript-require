@@ -9,7 +9,6 @@ var options = {
   nodeLib: false,
   targetES5: true,
   moduleKind: 'commonjs',
-  exitOnError: true
 };
 
 module.exports = function(opts) {
@@ -69,6 +68,15 @@ function compileTS (module) {
       exitCode = code;
     }
   });
+  var stream = require('stream');
+
+  proc.stderr = new stream.Writable();
+  var compilationErrors = [];
+  proc.stderr.write = function (error) {
+    if (error) { //sometimes error is empty but call to stderr is done.
+      compilationErrors.push(error);
+    }
+  }
 
   var sandbox = {
     process: proc,
@@ -79,8 +87,14 @@ function compileTS (module) {
   };
 
   tscScript.runInNewContext(sandbox);
-  if (exitCode != 0) {
-    throw new Error('Unable to compile TypeScript file.');
+
+  if (compilationErrors.length !== 0) {
+    compilationErrors.forEach(function (message) {
+      process.stderr.write(message);
+    })
+    process.stderr.write("\n");
+    console.error('Unable to compile TypeScript file', module.filename);
+    process.exit(1);
   }
 
   return jsname;
