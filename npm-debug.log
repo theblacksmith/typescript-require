@@ -1,0 +1,218 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'publish' ]
+2 info using npm@1.3.17
+3 info using node@v0.10.23
+4 verbose publish [ '.' ]
+5 verbose cache add [ '.', null ]
+6 verbose cache add name=undefined spec="." args=[".",null]
+7 verbose parsed url { protocol: null,
+7 verbose parsed url   slashes: null,
+7 verbose parsed url   auth: null,
+7 verbose parsed url   host: null,
+7 verbose parsed url   port: null,
+7 verbose parsed url   hostname: null,
+7 verbose parsed url   hash: null,
+7 verbose parsed url   search: null,
+7 verbose parsed url   query: null,
+7 verbose parsed url   pathname: '.',
+7 verbose parsed url   path: '.',
+7 verbose parsed url   href: '.' }
+8 silly lockFile 3a52ce78- .
+9 verbose lock . /home/sel/.npm/3a52ce78-.lock
+10 verbose tar pack [ '/home/sel/tmp/npm-2397--PnlP9mW/1389129046554-0.9175103548914194/tmp.tgz',
+10 verbose tar pack   '.' ]
+11 verbose tarball /home/sel/tmp/npm-2397--PnlP9mW/1389129046554-0.9175103548914194/tmp.tgz
+12 verbose folder .
+13 info prepublish typescript-require@0.2.6
+14 silly lockFile 1f1177db-tar tar://.
+15 verbose lock tar://. /home/sel/.npm/1f1177db-tar.lock
+16 silly lockFile 2d64bbb8-46554-0-9175103548914194-tmp-tgz tar:///home/sel/tmp/npm-2397--PnlP9mW/1389129046554-0.9175103548914194/tmp.tgz
+17 verbose lock tar:///home/sel/tmp/npm-2397--PnlP9mW/1389129046554-0.9175103548914194/tmp.tgz /home/sel/.npm/2d64bbb8-46554-0-9175103548914194-tmp-tgz.lock
+18 silly lockFile 1f1177db-tar tar://.
+19 silly lockFile 1f1177db-tar tar://.
+20 silly lockFile 2d64bbb8-46554-0-9175103548914194-tmp-tgz tar:///home/sel/tmp/npm-2397--PnlP9mW/1389129046554-0.9175103548914194/tmp.tgz
+21 silly lockFile 2d64bbb8-46554-0-9175103548914194-tmp-tgz tar:///home/sel/tmp/npm-2397--PnlP9mW/1389129046554-0.9175103548914194/tmp.tgz
+22 verbose tar unpack /home/sel/tmp/npm-2397--PnlP9mW/1389129046554-0.9175103548914194/tmp.tgz
+23 silly lockFile 3cd0eedc-46554-0-9175103548914194-package tar:///home/sel/tmp/npm-2397--PnlP9mW/1389129046554-0.9175103548914194/package
+24 verbose lock tar:///home/sel/tmp/npm-2397--PnlP9mW/1389129046554-0.9175103548914194/package /home/sel/.npm/3cd0eedc-46554-0-9175103548914194-package.lock
+25 silly lockFile 2d64bbb8-46554-0-9175103548914194-tmp-tgz tar:///home/sel/tmp/npm-2397--PnlP9mW/1389129046554-0.9175103548914194/tmp.tgz
+26 verbose lock tar:///home/sel/tmp/npm-2397--PnlP9mW/1389129046554-0.9175103548914194/tmp.tgz /home/sel/.npm/2d64bbb8-46554-0-9175103548914194-tmp-tgz.lock
+27 silly gunzTarPerm modes [ '755', '644' ]
+28 silly gunzTarPerm extractEntry package.json
+29 silly gunzTarPerm extractEntry .npmignore
+30 silly gunzTarPerm extractEntry README.md
+31 silly gunzTarPerm extractEntry index.js
+32 silly gunzTarPerm extractEntry typings/lib.d.ts
+33 silly gunzTarPerm extractEntry typings/node.d.ts
+34 silly lockFile 3cd0eedc-46554-0-9175103548914194-package tar:///home/sel/tmp/npm-2397--PnlP9mW/1389129046554-0.9175103548914194/package
+35 silly lockFile 3cd0eedc-46554-0-9175103548914194-package tar:///home/sel/tmp/npm-2397--PnlP9mW/1389129046554-0.9175103548914194/package
+36 silly lockFile 2d64bbb8-46554-0-9175103548914194-tmp-tgz tar:///home/sel/tmp/npm-2397--PnlP9mW/1389129046554-0.9175103548914194/tmp.tgz
+37 silly lockFile 2d64bbb8-46554-0-9175103548914194-tmp-tgz tar:///home/sel/tmp/npm-2397--PnlP9mW/1389129046554-0.9175103548914194/tmp.tgz
+38 verbose tar pack [ '/home/sel/.npm/typescript-require/0.2.6/package.tgz',
+38 verbose tar pack   '/home/sel/tmp/npm-2397--PnlP9mW/1389129046554-0.9175103548914194/package' ]
+39 verbose tarball /home/sel/.npm/typescript-require/0.2.6/package.tgz
+40 verbose folder /home/sel/tmp/npm-2397--PnlP9mW/1389129046554-0.9175103548914194/package
+41 silly lockFile 3cd0eedc-46554-0-9175103548914194-package tar:///home/sel/tmp/npm-2397--PnlP9mW/1389129046554-0.9175103548914194/package
+42 verbose lock tar:///home/sel/tmp/npm-2397--PnlP9mW/1389129046554-0.9175103548914194/package /home/sel/.npm/3cd0eedc-46554-0-9175103548914194-package.lock
+43 silly lockFile f8980ecf-script-require-0-2-6-package-tgz tar:///home/sel/.npm/typescript-require/0.2.6/package.tgz
+44 verbose lock tar:///home/sel/.npm/typescript-require/0.2.6/package.tgz /home/sel/.npm/f8980ecf-script-require-0-2-6-package-tgz.lock
+45 silly lockFile 3cd0eedc-46554-0-9175103548914194-package tar:///home/sel/tmp/npm-2397--PnlP9mW/1389129046554-0.9175103548914194/package
+46 silly lockFile 3cd0eedc-46554-0-9175103548914194-package tar:///home/sel/tmp/npm-2397--PnlP9mW/1389129046554-0.9175103548914194/package
+47 silly lockFile f8980ecf-script-require-0-2-6-package-tgz tar:///home/sel/.npm/typescript-require/0.2.6/package.tgz
+48 silly lockFile f8980ecf-script-require-0-2-6-package-tgz tar:///home/sel/.npm/typescript-require/0.2.6/package.tgz
+49 silly lockFile 86da334a-typescript-require-0-2-6-package /home/sel/.npm/typescript-require/0.2.6/package
+50 verbose lock /home/sel/.npm/typescript-require/0.2.6/package /home/sel/.npm/86da334a-typescript-require-0-2-6-package.lock
+51 silly lockFile 86da334a-typescript-require-0-2-6-package /home/sel/.npm/typescript-require/0.2.6/package
+52 silly lockFile 86da334a-typescript-require-0-2-6-package /home/sel/.npm/typescript-require/0.2.6/package
+53 verbose tar unpack /home/sel/.npm/typescript-require/0.2.6/package.tgz
+54 silly lockFile 9f7809c3-typescript-require-0-2-6-package tar:///home/sel/.npm/typescript-require/0.2.6/package
+55 verbose lock tar:///home/sel/.npm/typescript-require/0.2.6/package /home/sel/.npm/9f7809c3-typescript-require-0-2-6-package.lock
+56 silly lockFile f8980ecf-script-require-0-2-6-package-tgz tar:///home/sel/.npm/typescript-require/0.2.6/package.tgz
+57 verbose lock tar:///home/sel/.npm/typescript-require/0.2.6/package.tgz /home/sel/.npm/f8980ecf-script-require-0-2-6-package-tgz.lock
+58 silly gunzTarPerm modes [ '755', '644' ]
+59 silly gunzTarPerm extractEntry package.json
+60 silly gunzTarPerm extractEntry .npmignore
+61 silly gunzTarPerm extractEntry README.md
+62 silly gunzTarPerm extractEntry index.js
+63 silly gunzTarPerm extractEntry typings/lib.d.ts
+64 silly gunzTarPerm extractEntry typings/node.d.ts
+65 silly lockFile 9f7809c3-typescript-require-0-2-6-package tar:///home/sel/.npm/typescript-require/0.2.6/package
+66 silly lockFile 9f7809c3-typescript-require-0-2-6-package tar:///home/sel/.npm/typescript-require/0.2.6/package
+67 silly lockFile f8980ecf-script-require-0-2-6-package-tgz tar:///home/sel/.npm/typescript-require/0.2.6/package.tgz
+68 silly lockFile f8980ecf-script-require-0-2-6-package-tgz tar:///home/sel/.npm/typescript-require/0.2.6/package.tgz
+69 verbose chmod /home/sel/.npm/typescript-require/0.2.6/package.tgz 644
+70 verbose chown /home/sel/.npm/typescript-require/0.2.6/package.tgz [ 1000, 1000 ]
+71 silly lockFile 3a52ce78- .
+72 silly lockFile 3a52ce78- .
+73 silly publish { name: 'typescript-require',
+73 silly publish   description: 'Node.JS require extension to load TypeScript modules from JS',
+73 silly publish   homepage: 'https://github.com/eknkc/typescript-require',
+73 silly publish   author: { name: 'Ekin Koc', email: 'ekin@eknkc.com' },
+73 silly publish   contributors: [ { name: 'Szymon Wygnański', email: 's@finalclass.net' } ],
+73 silly publish   version: '0.2.6',
+73 silly publish   main: './index.js',
+73 silly publish   repository:
+73 silly publish    { type: 'git',
+73 silly publish      url: 'git@github.com:eknkc/typescript-require.git' },
+73 silly publish   dependencies: { typescript: '>= 0.8.2' },
+73 silly publish   keywords: [ 'typescript', 'require' ],
+73 silly publish   devDependencies: {},
+73 silly publish   optionalDependencies: {},
+73 silly publish   engines: { node: '*' },
+73 silly publish   readme: 'TypeScript Require Extension\n============================\n\nThis is a Node.JS `require` extension that enables requiring typescript modules without any preprocessing.\n\n# Install\nInstall via npm:\n\n    npm install typescript-require\n\n# Use\n\nDuring the boot up process of your application, require `typescript-require` once;\n\n    require(\'typescript-require\');\n\nAfter this point, you can require any .ts module just like .js modules. `typescript-require` will find out\nand compile the TypeScript file, resolving any necessary dependencies to other scripts.\n\n# Sample\n\n#### app.js\n    // Initialize\n    require(\'typescript-require\');\n\n    // Get functions.ts\n    var funcs = require("./funcs.ts");\n    console.log(funcs.lowercase("HELLO!"));\n\n#### funcs.ts\n    export function lowercase(val:string) {\n        return val.toLowerCase();\n    }\n\n    export function uppercase(val:string) {\n        return val.toUpperCase();\n    }\n\n# Configuration\nIt is possible to configure the require extension upon initialization:\n\n    // Initialize\n    require(\'typescript-require\')({\n        nodeLib: false,\n        targetES5: true,\n        exitOnError: true\n    });\n\n### nodeLib [boolean] default: false\nIf **true** `node.d.ts` definitions file is loaded before custom ts files. This is disabled by default and you should use\n\n    ///<reference path=\'node.d.ts\'/>\n\nat the beginning of your ts modules.\n\n### targetES5 [boolean] default: true\nTarget ES5 / ES3 output mode.\n\n# Module Dependencies in TS files\nYou can load any other TypeScript or Javascript module from your typescripts. However, you should\nuse different methods for different modules\n\n### sample.ts\nGiven that there are two files, `foomodule.js` and `barmodule.ts` at the same directory as sample.ts\n\n    ///<reference path=\'node.d.ts\'/>\n\n    // Load a JavaScript module with standard Node.JS require\n    var foomodule = require(\'./foomodule.js\');\n\n    // Load a TypeScript module with TypeScript module syntax\n    import barmodule = module(\'barmodule\');\n    ```\nNote that the second one essentially gets compiled to a `require` call just like the first one. However,\n`import ... module` syntax makes it possible to use TyepScript compile time validation features (like type checking).\n\nDeveloped By\n============\n\nEkin Koc - <ekin@eknkc.com>\n\nLicense\n=======\n\n    Copyright 2012 Ekin Koc\n\n    Licensed under the Apache License, Version 2.0 (the "License");\n    you may not use this file except in compliance with the License.\n    You may obtain a copy of the License at\n\n       http://www.apache.org/licenses/LICENSE-2.0\n\n    Unless required by applicable law or agreed to in writing, software\n    distributed under the License is distributed on an "AS IS" BASIS,\n    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n    See the License for the specific language governing permissions and\n    limitations under the License.\n',
+73 silly publish   readmeFilename: 'README.md',
+73 silly publish   bugs: { url: 'https://github.com/eknkc/typescript-require/issues' },
+73 silly publish   _id: 'typescript-require@0.2.6',
+73 silly publish   dist: { shasum: '8bee580dd841b3d621e75dfccd8ebb9aea1fe188' },
+73 silly publish   _from: '.' }
+74 verbose url raw typescript-require
+75 verbose url resolving [ 'https://registry.npmjs.org/', './typescript-require' ]
+76 verbose url resolved https://registry.npmjs.org/typescript-require
+77 info trying registry request attempt 1 at 22:10:46
+78 http PUT https://registry.npmjs.org/typescript-require
+79 http 409 https://registry.npmjs.org/typescript-require
+80 verbose url raw typescript-require
+81 verbose url resolving [ 'https://registry.npmjs.org/', './typescript-require' ]
+82 verbose url resolved https://registry.npmjs.org/typescript-require
+83 info trying registry request attempt 1 at 22:10:47
+84 http GET https://registry.npmjs.org/typescript-require
+85 http 200 https://registry.npmjs.org/typescript-require
+86 verbose uploading [ 'typescript-require/-/typescript-require-0.2.6.tgz/-rev/23-2d94252824ce14679d3c0d4fa16fc57e',
+86 verbose uploading   '/home/sel/.npm/typescript-require/0.2.6/package.tgz' ]
+87 verbose url raw typescript-require/-/typescript-require-0.2.6.tgz/-rev/23-2d94252824ce14679d3c0d4fa16fc57e
+88 verbose url resolving [ 'https://registry.npmjs.org/',
+88 verbose url resolving   './typescript-require/-/typescript-require-0.2.6.tgz/-rev/23-2d94252824ce14679d3c0d4fa16fc57e' ]
+89 verbose url resolved https://registry.npmjs.org/typescript-require/-/typescript-require-0.2.6.tgz/-rev/23-2d94252824ce14679d3c0d4fa16fc57e
+90 info trying registry request attempt 1 at 22:10:47
+91 http PUT https://registry.npmjs.org/typescript-require/-/typescript-require-0.2.6.tgz/-rev/23-2d94252824ce14679d3c0d4fa16fc57e
+92 http 503 https://registry.npmjs.org/typescript-require/-/typescript-require-0.2.6.tgz/-rev/23-2d94252824ce14679d3c0d4fa16fc57e
+93 verbose bad json <?xml version="1.0" encoding="utf-8"?>
+93 verbose bad json <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+93 verbose bad json  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+93 verbose bad json <html>
+93 verbose bad json   <head>
+93 verbose bad json     <title>503 client read error</title>
+93 verbose bad json   </head>
+93 verbose bad json   <body>
+93 verbose bad json     <h1>Error 503 client read error</h1>
+93 verbose bad json     <p>client read error</p>
+93 verbose bad json     <h3>Guru Meditation:</h3>
+93 verbose bad json     <p>XID: 2702759899</p>
+93 verbose bad json     <hr>
+93 verbose bad json     <p>Varnish cache server</p>
+93 verbose bad json   </body>
+93 verbose bad json </html>
+94 error registry error parsing json
+95 info retry will retry, error on last attempt: SyntaxError: Unexpected token <
+95 info retry
+95 info retry <?xml version="1.0" encoding="utf-8"?>
+95 info retry <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+95 info retry  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+95 info retry <html>
+95 info retry   <head>
+95 info retry     <title>503 client read error</title>
+95 info retry   </head>
+95 info retry   <body>
+95 info retry     <h1>Error 503 client read error</h1>
+95 info retry     <p>client read error</p>
+95 info retry     <h3>Guru Meditation:</h3>
+95 info retry     <p>XID: 2702759899</p>
+95 info retry     <hr>
+95 info retry     <p>Varnish cache server</p>
+95 info retry   </body>
+95 info retry </html>
+96 info trying registry request attempt 2 at 22:11:08
+97 http PUT https://registry.npmjs.org/typescript-require/-/typescript-require-0.2.6.tgz/-rev/23-2d94252824ce14679d3c0d4fa16fc57e
+98 http 400 https://registry.npmjs.org/typescript-require/-/typescript-require-0.2.6.tgz/-rev/23-2d94252824ce14679d3c0d4fa16fc57e
+99 verbose bad json <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+99 verbose bad json <html><head>
+99 verbose bad json <title>400 Bad Request</title>
+99 verbose bad json </head><body>
+99 verbose bad json <h1>Bad Request</h1>
+99 verbose bad json <p>Your browser sent a request that this server could not understand.<br />
+99 verbose bad json </p>
+99 verbose bad json </body></html>
+100 error registry error parsing json
+101 info trying registry request attempt 1 at 22:12:10
+102 http PUT https://registry.npmjs.org/typescript-require/-/typescript-require-0.2.6.tgz/-rev/23-2d94252824ce14679d3c0d4fa16fc57e
+103 http 400 https://registry.npmjs.org/typescript-require/-/typescript-require-0.2.6.tgz/-rev/23-2d94252824ce14679d3c0d4fa16fc57e
+104 verbose bad json <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+104 verbose bad json <html><head>
+104 verbose bad json <title>400 Bad Request</title>
+104 verbose bad json </head><body>
+104 verbose bad json <h1>Bad Request</h1>
+104 verbose bad json <p>Your browser sent a request that this server could not understand.<br />
+104 verbose bad json </p>
+104 verbose bad json </body></html>
+105 error registry error parsing json
+106 error publish Error uploading package
+107 error SyntaxError: Unexpected token <
+107 error <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+107 error <html><head>
+107 error <title>400 Bad Request</title>
+107 error </head><body>
+107 error <h1>Bad Request</h1>
+107 error <p>Your browser sent a request that this server could not understand.<br />
+107 error </p>
+107 error </body></html>
+107 error
+107 error     at Object.parse (native)
+107 error     at RegClient.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:238:23)
+107 error     at Request.self.callback (/usr/local/lib/node_modules/npm/node_modules/request/request.js:123:22)
+107 error     at Request.EventEmitter.emit (events.js:98:17)
+107 error     at Request.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:877:14)
+107 error     at Request.EventEmitter.emit (events.js:117:20)
+107 error     at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:828:12)
+107 error     at IncomingMessage.EventEmitter.emit (events.js:117:20)
+107 error     at _stream_readable.js:920:16
+107 error     at process._tickCallback (node.js:415:13)
+108 error If you need help, you may report this *entire* log,
+108 error including the npm and node versions, at:
+108 error     <http://github.com/isaacs/npm/issues>
+109 error System Linux 3.10-2-amd64
+110 error command "/usr/local/bin/node" "/usr/local/bin/npm" "publish"
+111 error cwd /home/sel/Dokumenty/typescript-require
+112 error node -v v0.10.23
+113 error npm -v 1.3.17
+114 error type unexpected_token
+115 verbose exit [ 1, true ]
