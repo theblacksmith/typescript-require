@@ -19,7 +19,7 @@
     "url": "git@github.com:eknkc/typescript-require.git"
   },
   "dependencies": {
-    "typescript": ">= 0.8.2"
+    "typescript": ">= 1.0.1"
   },
   "keywords": [
     "typescript",
