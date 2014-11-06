@@ -72,7 +72,7 @@ Given that there are two files, `foomodule.js` and `barmodule.ts` at the same di
     import barmodule = module('barmodule');
     ```
 Note that the second one essentially gets compiled to a `require` call just like the first one. However,
-`import ... module` syntax makes it possible to use TyepScript compile time validation features (like type checking).
+`import ... module` syntax makes it possible to use TypeScript compile time validation features (like type checking).
 
 Developed By
 ============
