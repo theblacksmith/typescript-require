@@ -12,14 +12,14 @@
       "email": "s@finalclass.net"
     }
   ],
-  "version": "0.2.6",
+  "version": "0.2.7",
   "main": "./index.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:eknkc/typescript-require.git"
   },
   "dependencies": {
-    "typescript": ">= 0.8.2"
+    "typescript": ">= 1.0.1"
   },
   "keywords": [
     "typescript",
