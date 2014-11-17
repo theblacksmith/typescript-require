@@ -59,6 +59,7 @@ function compileTS (module) {
 
   var proc = merge(merge({}, process), {
     argv: compact(argv),
+    mainModule: { filename: tsc },
     exit: function(code) {
       if (code !== 0 && options.exitOnError) {
         console.error('Fatal Error. Unable to compile TypeScript file. Exiting.');
