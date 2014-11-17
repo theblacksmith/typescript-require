@@ -49,13 +49,11 @@ function compileTS (module) {
   var argv = [
     "node",
     "tsc.js",
-    "--nolib",
     "--target",
     options.targetES5 ? "ES5" : "ES3", !! options.moduleKind ? "--module" : "", !! options.moduleKind ? options.moduleKind : "",
     "--outDir",
     tmpDir,
-    path.resolve(__dirname, "typings/lib.d.ts"),
-    options.nodeLib ? path.resolve(__dirname, "typings/node.d.ts") : null,
+    options.nodeLib ? path.resolve(__dirname, "typings/node/node.d.ts") : null,
     module.filename
   ];
 

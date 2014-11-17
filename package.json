@@ -25,7 +25,9 @@
     "typescript",
     "require"
   ],
-  "devDependencies": {},
+  "devDependencies": {
+    "tsd": "~0.5.7"
+  },
   "optionalDependencies": {},
   "engines": {
     "node": "*"
