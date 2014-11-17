@@ -49,18 +49,18 @@ function compileTS (module) {
   var argv = [
     "node",
     "tsc.js",
-    "--nolib",
-    "--target",
-    options.targetES5 ? "ES5" : "ES3", !! options.moduleKind ? "--module" : "", !! options.moduleKind ? options.moduleKind : "",
+    "--target", options.targetES5 ? "ES5" : "ES3",
+    !! options.moduleKind ? "--module" : "", !! options.moduleKind ? options.moduleKind : "",
+    options.noImplicitAny ? "--noImplicitAny" : "",
     "--outDir",
     tmpDir,
-    path.resolve(__dirname, "typings/lib.d.ts"),
-    options.nodeLib ? path.resolve(__dirname, "typings/node.d.ts") : null,
+    options.nodeLib ? path.resolve(__dirname, "typings/node/node.d.ts") : null,
     module.filename
   ];
 
   var proc = merge(merge({}, process), {
     argv: compact(argv),
+    mainModule: { filename: tsc },
     exit: function(code) {
       if (code !== 0 && options.exitOnError) {
         console.error('Fatal Error. Unable to compile TypeScript file. Exiting.');
