@@ -29,7 +29,7 @@ function isModified(tsname, jsname) {
   } catch (e) { //catch if file does not exists
     jsMTime = 0;
   }
-  
+
   return tsMTime > jsMTime;
 }
 
@@ -40,7 +40,10 @@ function isModified(tsname, jsname) {
 function compileTS (module) {
   var exitCode = 0;
   var tmpDir = path.join(process.cwd(), "tmp", "tsreq");
-  var jsname = path.join(tmpDir, path.basename(module.filename, ".ts") + ".js");
+  var jsname = path.join(
+      tmpDir,
+      path.relative(process.cwd(), path.dirname(module.filename)),
+      path.basename(module.filename, ".ts") + ".js");
 
   if (!isModified(module.filename, jsname)) {
     return jsname;
