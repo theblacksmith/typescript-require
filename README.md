@@ -43,6 +43,7 @@ It is possible to configure the require extension upon initialization:
     require('typescript-require')({
         nodeLib: false,
         targetES5: true,
+        noImplicitAny: true,
         exitOnError: true
     });
 
@@ -53,8 +54,11 @@ If **true** `node.d.ts` definitions file is loaded before custom ts files. This 
 
 at the beginning of your ts modules.
 
-### targetES5 [boolean] default: true
+### targetES5 [boolean] default: false
 Target ES5 / ES3 output mode.
+
+### noImplicitAny [boolean] default: false
+Disallow implicit `any` types; require that everything be explicitly typed.
 
 # Module Dependencies in TS files
 You can load any other TypeScript or Javascript module from your typescripts. However, you should
