@@ -4,6 +4,7 @@ var path = require('path');
 
 var tsc = require.resolve("typescript").replace(/typescript\.js$/, "tsc.js");
 var tscScript = vm.createScript(fs.readFileSync(tsc, "utf8"), tsc);
+var libPath = path.join(path.dirname(require.resolve("typescript")), "lib.d.ts")
 
 var options = {
   nodeLib: false,
@@ -29,7 +30,7 @@ function isModified(tsname, jsname) {
   } catch (e) { //catch if file does not exists
     jsMTime = 0;
   }
-  
+
   return tsMTime > jsMTime;
 }
 
@@ -54,7 +55,7 @@ function compileTS (module) {
     options.targetES5 ? "ES5" : "ES3", !! options.moduleKind ? "--module" : "", !! options.moduleKind ? options.moduleKind : "",
     "--outDir",
     tmpDir,
-    path.resolve(__dirname, "typings/lib.d.ts"),
+    libPath,
     options.nodeLib ? path.resolve(__dirname, "typings/node.d.ts") : null,
     module.filename
   ];

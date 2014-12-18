@@ -6,13 +6,14 @@
     "name": "Ekin Koc",
     "email": "ekin@eknkc.com"
   },
+  "license": "MIT",
   "contributors": [
     {
       "name": "Szymon Wygnański",
       "email": "s@finalclass.net"
     }
   ],
-  "version": "0.2.6",
+  "version": "0.2.7",
   "main": "./index.js",
   "repository": {
     "type": "git",
@@ -25,9 +26,15 @@
     "typescript",
     "require"
   ],
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "^1.10.0",
+    "mocha": "^2.0.1"
+  },
   "optionalDependencies": {},
   "engines": {
     "node": "*"
+  },
+  "scripts": {
+    "test": "mocha"
   }
 }
