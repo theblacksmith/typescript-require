@@ -2,7 +2,7 @@ var vm = require('vm');
 var fs = require('fs');
 var path = require('path');
 
-var tsc = require.resolve("typescript").replace(/typescript\.js$/, "tsc.js");
+var tsc = path.join(path.dirname(require.resolve("typescript")),"tsc.js");
 var tscScript = vm.createScript(fs.readFileSync(tsc, "utf8"), tsc);
 var libPath = path.join(path.dirname(require.resolve("typescript")), "lib.d.ts")
 
