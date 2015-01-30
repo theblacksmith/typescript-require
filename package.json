@@ -11,9 +11,13 @@
     {
       "name": "Szymon Wygnański",
       "email": "s@finalclass.net"
+    },
+    {
+      "name": "The Blacksmith (a.k.a Saulo Vallory)",
+      "email": "me@saulovallory.com"
     }
   ],
-  "version": "0.2.7",
+  "version": "0.2.8",
   "main": "./index.js",
   "repository": {
     "type": "git",
