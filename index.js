@@ -38,11 +38,13 @@ function isModified(tsname, jsname) {
  * Compiles TypeScript file, returns js file path
  * @return {string} js file path
  */
-function compileTS (module) {
+function compileTS (module, pathIndex, realname) {
   var exitCode = 0;
+  if (!pathIndex) pathIndex = 0;
+  
   var tmpDir = path.join(process.cwd(), "tmp", "tsreq");
-  var jsname = path.join(tmpDir, path.basename(module.filename, ".ts") + ".js");
-
+  var jsname = (path.join(tmpDir, (module.paths[pathIndex] + '/..').replace(process.cwd(), ''), path.basename(module.filename, ".ts") + ".js"));
+  tmpDir = path.dirname(jsname);
   if (!isModified(module.filename, jsname)) {
     return jsname;
   }
@@ -83,8 +85,17 @@ function compileTS (module) {
   if (exitCode != 0) {
     throw new Error('Unable to compile TypeScript file.');
   }
+  
+  // Sometimes tsc will compile the file to a different location
+  // The reason it does it, is probably related to the process object
+  // This is a work around for that.
+  if (!fs.existsSync(realname || jsname))
+  {
+    if (module.paths.length > pathIndex + 2)
+	  return compileTS(module, pathIndex + 1, realname || jsname);
+  }
 
-  return jsname;
+  return realname || jsname;
 }
 
 function runJS (jsname, module) {
