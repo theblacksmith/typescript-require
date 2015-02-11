@@ -41,7 +41,8 @@ function isModified(tsname, jsname) {
 function compileTS (module) {
   var exitCode = 0;
   var tmpDir = path.join(process.cwd(), "tmp", "tsreq");
-  var jsname = path.join(tmpDir, path.basename(module.filename, ".ts") + ".js");
+  var relativePath = path.relative(process.cwd(), module.filename);
+  var jsname = path.join(tmpDir, path.dirname(relativePath), path.basename(module.filename, ".ts") + ".js");
 
   if (!isModified(module.filename, jsname)) {
     return jsname;
