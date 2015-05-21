@@ -41,9 +41,9 @@ function isModified(tsname, jsname) {
 function compileTS (module) {
   var exitCode = 0;
   var tmpDir = path.join(process.cwd(), "tmp", "tsreq");
-  var relativePath = path.relative(process.cwd(), module.filename);
-  var jsname = path.join(tmpDir, path.dirname(relativePath), path.basename(module.filename, ".ts") + ".js");
-
+  var relativeFolder = path.dirname(path.relative(process.cwd(), module.filename));
+  var jsname = path.join(tmpDir, relativeFolder, path.basename(module.filename, ".ts") + ".js");
+  
   if (!isModified(module.filename, jsname)) {
     return jsname;
   }
@@ -55,7 +55,7 @@ function compileTS (module) {
     "--target",
     options.targetES5 ? "ES5" : "ES3", !! options.moduleKind ? "--module" : "", !! options.moduleKind ? options.moduleKind : "",
     "--outDir",
-    tmpDir,
+    path.join(tmpDir, relativeFolder),
     libPath,
     options.nodeLib ? path.resolve(__dirname, "typings/node.d.ts") : null,
     module.filename

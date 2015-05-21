@@ -6,7 +6,6 @@ var chai = require('chai'),
 describe('typescript-require', function() {
   it('Should allow requiring a typescript file', function() {
     var ship = require('./assets/ship');
-    console.log(ship)
     expect(ship).to.not.be.empty;
   })
 })
