@@ -1,7 +1,7 @@
 {
   "name": "typescript-require",
   "description": "Node.JS require extension to load TypeScript modules from JS",
-  "homepage": "https://github.com/eknkc/typescript-require",
+  "homepage": "https://github.com/theblacksmith/typescript-require",
   "author": {
     "name": "Ekin Koc",
     "email": "ekin@eknkc.com"
@@ -17,11 +17,11 @@
       "email": "me@saulovallory.com"
     }
   ],
-  "version": "0.2.9",
+  "version": "0.2.9-1",
   "main": "./index.js",
   "repository": {
     "type": "git",
-    "url": "git@github.com:eknkc/typescript-require.git"
+    "url": "git@github.com:theblacksmith/typescript-require.git"
   },
   "dependencies": {
     "typescript": ">= 0.8.2"
