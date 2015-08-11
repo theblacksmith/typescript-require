@@ -3,6 +3,8 @@ TypeScript Require Extension
 
 This is a Node.JS `require` extension that enables requiring typescript modules without any preprocessing.
 
+[![Build Status](https://travis-ci.org/theblacksmith/typescript-require.svg)](https://travis-ci.org/theblacksmith/typescript-require)
+
 # Install
 Install via npm:
 
