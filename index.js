@@ -10,7 +10,8 @@ var options = {
   nodeLib: false,
   targetES5: true,
   moduleKind: 'commonjs',
-  exitOnError: true
+  exitOnError: true,
+  additionalTypeLibs: []
 };
 
 module.exports = function(opts) {
@@ -58,9 +59,14 @@ function compileTS (module) {
     path.join(tmpDir, relativeFolder),
     libPath,
     options.nodeLib ? path.resolve(__dirname, "typings/node.d.ts") : null,
-    module.filename
   ];
+  
+  options.additionalTypeLibs.forEach(function(typeLib) {
+    argv.push(typeLib);
+  });
 
+  argv.push(module.filename);
+  
   var proc = merge(merge({}, process), {
     argv: compact(argv),
     exit: function(code) {
