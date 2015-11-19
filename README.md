@@ -58,6 +58,12 @@ at the beginning of your ts modules.
 ### targetES5 [boolean] default: true
 Target ES5 / ES3 output mode.
 
+### exitOnError [boolean] default: true
+Calls `process.exit` if an error occurs during TypeScript compilation
+
+### tmpDir [string] default: /tmp
+The directory underneath which output files should be placed
+
 # Module Dependencies in TS files
 You can load any other TypeScript or Javascript module from your typescripts. However, you should
 use different methods for different modules
