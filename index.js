@@ -10,6 +10,7 @@ var options = {
   nodeLib: false,
   targetES5: true,
   moduleKind: 'commonjs',
+  emitOnError: false,
   exitOnError: true,
   tmpDir: path.join(process.cwd(), 'tmp')
 };
@@ -52,6 +53,7 @@ function compileTS (module) {
   var argv = [
     "node",
     "tsc.js",
+    !! options.emitOnError ? "" : "--noEmitOnError",
     "--nolib",
     "--target",
     options.targetES5 ? "ES5" : "ES3", !! options.moduleKind ? "--module" : "", !! options.moduleKind ? options.moduleKind : "",
