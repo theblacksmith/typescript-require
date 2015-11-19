@@ -4,7 +4,7 @@ var path = require('path');
 
 var tsc = path.join(path.dirname(require.resolve("typescript")),"tsc.js");
 var tscScript = vm.createScript(fs.readFileSync(tsc, "utf8"), tsc);
-var libPath = path.join(path.dirname(require.resolve("typescript")), "lib.d.ts")
+var libPath = path.join(path.dirname(require.resolve("typescript")), "lib.d.ts");
 
 var options = {
   nodeLib: false,
@@ -24,11 +24,11 @@ require.extensions['.ts'] = function(module) {
 
 function isModified(tsname, jsname) {
   var tsMTime = fs.statSync(tsname).mtime;
+  var jsMTime = 0;
 
   try {
-    var jsMTime = fs.statSync(jsname).mtime;
+    jsMTime = fs.statSync(jsname).mtime;
   } catch (e) { //catch if file does not exists
-    jsMTime = 0;
   }
 
   return tsMTime > jsMTime;
@@ -81,7 +81,7 @@ function compileTS (module) {
   };
 
   tscScript.runInNewContext(sandbox);
-  if (exitCode != 0) {
+  if (exitCode !== 0) {
     throw new Error('Unable to compile TypeScript file.');
   }
 
