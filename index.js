@@ -113,7 +113,7 @@ function merge(a, b) {
     }
   }
   return a;
-};
+}
 
 function compact(arr) {
   var narr = [];
