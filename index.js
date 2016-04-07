@@ -10,7 +10,8 @@ var options = {
   nodeLib: false,
   targetES5: true,
   moduleKind: 'commonjs',
-  exitOnError: true
+  exitOnError: true,
+  tmpDir: 'tmp/tsreq'
 };
 
 module.exports = function(opts) {
@@ -40,7 +41,7 @@ function isModified(tsname, jsname) {
  */
 function compileTS (module) {
   var exitCode = 0;
-  var tmpDir = path.join(process.cwd(), "tmp", "tsreq");
+  var tmpDir = path.join(process.cwd(), options.tmpDir);
   var relativeFolder = path.dirname(path.relative(process.cwd(), module.filename));
   var jsname = path.join(tmpDir, relativeFolder, path.basename(module.filename, ".ts") + ".js");
   
