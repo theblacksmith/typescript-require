@@ -7,12 +7,17 @@ var tscScript = new vm.Script(fs.readFileSync(tsc, "utf8"), {
   filename: tsc
 });
 
+var disallowedOptions = ['outDir', 'outFile', 'rootDir'];
+
 var options = {
-  nodeLib: false,
-  targetES5: true,
-  moduleKind: 'commonjs',
   exitOnError: true,
-  tmpDir: 'tmp/tsreq'
+  tmpDir: 'tmp/tsreq',
+  extraFiles: [],
+  tscOptions: {
+    target: "ES5",
+    module: "commonjs",
+    inlineSourceMap: null
+  }
 };
 
 module.exports = function(opts) {
@@ -53,15 +58,25 @@ function compileTS (module) {
   var argv = [
     "node",
     "tsc.js",
-    "--nolib",
-    "--target",
-    options.targetES5 ? "ES5" : "ES3", !! options.moduleKind ? "--module" : "", !! options.moduleKind ? options.moduleKind : "",
     "--outDir",
-    path.join(tmpDir, relativeFolder),
-    libPath,
-    options.nodeLib ? path.resolve(__dirname, "typings/node.d.ts") : null,
-    module.filename
+    path.join(tmpDir, relativeFolder)
   ];
+  Object.keys(options.tscOptions).forEach(function(k) {
+    if (options.tscOptions[k] === false || disallowedOptions.indexOf(k) > -1) {
+      // Ignore disallowed options; also, tsc doesn't ever require a "false" option, it just
+      // defaults to no for those unless specified otherwise, so ignore those too.
+      // When it's just a "true" then we don't need a value.
+      return;
+    }
+    argv.push("--" + k);
+    if (options.tscOptions[k] && options.tscOptions[k] !== true) {
+      argv.push(options.tscOptions[k]);
+    }
+  });
+  argv = argv.concat(options.extraFiles);
+  argv.push(module.filename);
+
+  // console.log(argv);
 
   var proc = merge(merge({}, process), {
     argv: compact(argv),
