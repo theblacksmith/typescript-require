@@ -3,8 +3,9 @@ var fs = require('fs');
 var path = require('path');
 
 var tsc = path.join(path.dirname(require.resolve("typescript")),"tsc.js");
-var tscScript = vm.createScript(fs.readFileSync(tsc, "utf8"), tsc);
-var libPath = path.join(path.dirname(require.resolve("typescript")), "lib.d.ts")
+var tscScript = new vm.Script(fs.readFileSync(tsc, "utf8"), {
+  filename: tsc
+});
 
 var options = {
   nodeLib: false,
@@ -78,10 +79,14 @@ function compileTS (module) {
     require: require,
     module: module,
     Buffer: Buffer,
-    setTimeout: setTimeout
+    setTimeout: setTimeout,
+    __filename: tsc,
+    __dirname: path.dirname(tsc)
   };
 
-  tscScript.runInNewContext(sandbox);
+  tscScript.runInNewContext(sandbox, {
+    filename: tsc
+  });
   if (exitCode != 0) {
     throw new Error('Unable to compile TypeScript file.');
   }
