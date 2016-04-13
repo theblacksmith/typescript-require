@@ -59,7 +59,9 @@ function compileTS (module) {
     "node",
     "tsc.js",
     "--outDir",
-    path.join(tmpDir, relativeFolder)
+    tmpDir,
+    "--rootDir",
+    process.cwd()
   ];
   Object.keys(options.tscOptions).forEach(function(k) {
     if (options.tscOptions[k] === false || disallowedOptions.indexOf(k) > -1) {
