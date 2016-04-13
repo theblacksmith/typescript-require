@@ -17,7 +17,7 @@
       "email": "me@saulovallory.com"
     }
   ],
-  "version": "0.2.9-1",
+  "version": "1.0.0",
   "main": "./index.js",
   "repository": {
     "type": "git",
