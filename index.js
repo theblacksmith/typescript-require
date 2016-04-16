@@ -13,6 +13,7 @@ var options = {
   exitOnError: true,
   tmpDir: 'tmp/tsreq',
   extraFiles: [],
+  projectDir: false,
   tscOptions: {
     target: "ES5",
     module: "commonjs",
@@ -41,6 +42,8 @@ function isModified(tsname, jsname) {
   return tsMTime > jsMTime;
 }
 
+var projectBuilt = null;
+
 /**
  * Compiles TypeScript file, returns js file path
  * @return {string} js file path
@@ -63,49 +66,66 @@ function compileTS (module) {
     "--rootDir",
     process.cwd()
   ];
-  Object.keys(options.tscOptions).forEach(function(k) {
-    if (options.tscOptions[k] === false || disallowedOptions.indexOf(k) > -1) {
-      // Ignore disallowed options; also, tsc doesn't ever require a "false" option, it just
-      // defaults to no for those unless specified otherwise, so ignore those too.
-      // When it's just a "true" then we don't need a value.
-      return;
-    }
-    argv.push("--" + k);
-    if (options.tscOptions[k] && options.tscOptions[k] !== true) {
-      argv.push(options.tscOptions[k]);
-    }
-  });
-  argv = argv.concat(options.extraFiles);
-  argv.push(module.filename);
-
-  // console.log(argv);
-
-  var proc = merge(merge({}, process), {
-    argv: compact(argv),
-    exit: function(code) {
-      if (code !== 0 && options.exitOnError) {
-        console.error('Fatal Error. Unable to compile TypeScript file. Exiting.');
-        process.exit(code);
+  if (options.projectDir && projectBuilt === null) {
+    // For more complex projects it's better to set up a tsconfig.json file with the outDir set to
+    // the tmpDir and let it compile them all when we first start up; in that case
+    argv = [
+      "node",
+      "tsc.js",
+      "-p",
+      options.projectDir
+    ];
+    projectBuilt = false;
+  } else {
+    Object.keys(options.tscOptions).forEach(function(k) {
+      if (options.tscOptions[k] === false || disallowedOptions.indexOf(k) > -1) {
+        // Ignore disallowed options; also, tsc doesn't ever require a "false" option, it just
+        // defaults to no for those unless specified otherwise, so ignore those too.
+        // When it's just a "true" then we don't need a value.
+        return;
       }
-      exitCode = code;
+      argv.push("--" + k);
+      if (options.tscOptions[k] && options.tscOptions[k] !== true) {
+        argv.push(options.tscOptions[k]);
+      }
+    });
+    argv = argv.concat(options.extraFiles);
+    argv.push(module.filename);
+  }
+
+  if (!projectBuilt) {
+    console.log(argv);
+    var proc = merge(merge({}, process), {
+      argv: compact(argv),
+      exit: function(code) {
+        if (code !== 0 && options.exitOnError) {
+          console.error('Fatal Error. Unable to compile TypeScript file. Exiting.');
+          process.exit(code);
+        }
+        exitCode = code;
+      }
+    });
+
+    var sandbox = {
+      process: proc,
+      require: require,
+      module: module,
+      Buffer: Buffer,
+      setTimeout: setTimeout,
+      __filename: tsc,
+      __dirname: path.dirname(tsc)
+    };
+
+    tscScript.runInNewContext(sandbox, {
+      filename: tsc
+    });
+    if (exitCode != 0) {
+      throw new Error('Unable to compile TypeScript file.');
     }
-  });
-
-  var sandbox = {
-    process: proc,
-    require: require,
-    module: module,
-    Buffer: Buffer,
-    setTimeout: setTimeout,
-    __filename: tsc,
-    __dirname: path.dirname(tsc)
-  };
-
-  tscScript.runInNewContext(sandbox, {
-    filename: tsc
-  });
-  if (exitCode != 0) {
-    throw new Error('Unable to compile TypeScript file.');
+    if (projectBuilt === false) {
+      // We're building the full project and only need to do it once
+      projectBuilt = true;
+    }
   }
 
   return jsname;
