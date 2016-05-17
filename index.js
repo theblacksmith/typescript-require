@@ -32,11 +32,11 @@ require.extensions['.ts'] = function(module) {
 
 function isModified(tsname, jsname) {
   var tsMTime = fs.statSync(tsname).mtime;
+  var jsMTime = 0;
 
   try {
-    var jsMTime = fs.statSync(jsname).mtime;
+    jsMTime = fs.statSync(jsname).mtime;
   } catch (e) { //catch if file does not exists
-    jsMTime = 0;
   }
 
   return tsMTime > jsMTime;
@@ -45,15 +45,22 @@ function isModified(tsname, jsname) {
 var projectBuilt = null;
 
 /**
+ * if projectDir is specified return that otherwise return the current working directory.
+ **/
+function getTsRoot() {
+    return (options.projectDir ? options.projectDir : process.cwd());
+}
+
+/**
  * Compiles TypeScript file, returns js file path
  * @return {string} js file path
  */
 function compileTS (module) {
   var exitCode = 0;
-  var tmpDir = path.join(process.cwd(), options.tmpDir);
-  var relativeFolder = path.dirname(path.relative(process.cwd(), module.filename));
+  var tmpDir = path.join(getTsRoot(), options.tmpDir);
+  var relativeFolder = path.dirname(path.relative(getTsRoot(), module.filename));
   var jsname = path.join(tmpDir, relativeFolder, path.basename(module.filename, ".ts") + ".js");
-  
+
   if (!isModified(module.filename, jsname)) {
     return jsname;
   }
@@ -119,7 +126,7 @@ function compileTS (module) {
     tscScript.runInNewContext(sandbox, {
       filename: tsc
     });
-    if (exitCode != 0) {
+    if (exitCode !== 0) {
       throw new Error('Unable to compile TypeScript file.');
     }
     if (projectBuilt === false) {
@@ -144,7 +151,7 @@ function runJS (jsname, module) {
   sandbox.__dirname = path.dirname(module.filename);
   sandbox.module = module;
   sandbox.global = sandbox;
-  sandbox.root = root;
+  sandbox.root = root; // jshint ignore:line
 
   return vm.runInNewContext(content, sandbox, { filename: jsname });
 }
@@ -156,12 +163,12 @@ function merge(a, b) {
     }
   }
   return a;
-};
+}
 
 function compact(arr) {
   var narr = [];
   arr.forEach(function(data) {
-    if (data) narr.push(data);
+    if (data) { narr.push(data); }
   });
   return narr;
 }
