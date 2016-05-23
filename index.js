@@ -2,6 +2,11 @@ var vm = require('vm');
 var fs = require('fs');
 var path = require('path');
 
+// This is an ugly hack, but many typescript things may need reflect-metadata;
+// sad fact is that the way this library loads typescript files and the way reflect-metadata
+// works are entirely incompatible. This is the simple but hacky workaround
+try { require('reflect-metadata'); } catch(e) {}
+
 var tsc = path.join(path.dirname(require.resolve("typescript")),"tsc.js");
 var tscScript = new vm.Script(fs.readFileSync(tsc, "utf8"), {
   filename: tsc
@@ -151,7 +156,9 @@ function runJS (jsname, module) {
   sandbox.__dirname = path.dirname(module.filename);
   sandbox.module = module;
   sandbox.global = sandbox;
-  sandbox.root = root; // jshint ignore:line
+  sandbox._global = global;
+  sandbox.Reflect = Reflect;
+  // sandbox.root = root; // jshint ignore:line
 
   return vm.runInNewContext(content, sandbox, { filename: jsname });
 }
