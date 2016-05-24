@@ -157,7 +157,7 @@ function runJS (jsname, module) {
   sandbox.module = module;
   sandbox.global = sandbox;
   sandbox._global = global;
-  sandbox.Reflect = Reflect;
+  sandbox.Reflect = global.Reflect;
   // sandbox.root = root; // jshint ignore:line
 
   return vm.runInNewContext(content, sandbox, { filename: jsname });
