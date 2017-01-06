@@ -53,10 +53,12 @@ function compileTS (module) {
     "node",
     "tsc.js",
     "--nolib",
+    "--rootDir",
+    process.cwd(),
     "--target",
     options.targetES5 ? "ES5" : "ES3", !! options.moduleKind ? "--module" : "", !! options.moduleKind ? options.moduleKind : "",
     "--outDir",
-    path.join(tmpDir, relativeFolder),
+    tmpDir,
     libPath,
     options.nodeLib ? path.resolve(__dirname, "typings/node.d.ts") : null,
     module.filename
