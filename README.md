@@ -5,6 +5,8 @@ This is a Node.JS `require` extension that enables requiring typescript modules 
 
 [![Build Status](https://travis-ci.org/theblacksmith/typescript-require.svg)](https://travis-ci.org/theblacksmith/typescript-require)
 
+**This project is no longer maintained ([#34](https://github.com/theblacksmith/typescript-require/issues/34#issuecomment-230915434)). Take a look at [ts-node](https://github.com/TypeStrong/ts-node) instead.**
+
 # Install
 Install via npm:
 
