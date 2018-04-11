@@ -1,6 +1,6 @@
 {
   "name": "typescript-require",
-  "description": "Node.JS require extension to load TypeScript modules from JS",
+  "description": "Node.js require extension for TypeScript. No CLI, no REPL, no dependencies.",
   "homepage": "https://github.com/theblacksmith/typescript-require",
   "author": {
     "name": "Ekin Koc",
@@ -17,7 +17,7 @@
       "email": "me@saulovallory.com"
     }
   ],
-  "version": "0.2.9-1",
+  "version": "1.0.0-alpha",
   "main": "./index.js",
   "repository": {
     "type": "git",
