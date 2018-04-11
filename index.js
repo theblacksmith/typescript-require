@@ -10,8 +10,9 @@ var options = {
   nodeLib: false,
   targetES5: true,
   moduleKind: 'commonjs',
+  emitOnError: false,
   exitOnError: true,
-  tmpDir: 'tmp/tsreq'
+  tmpDir: path.join(process.cwd(), 'tmp')
 };
 
 module.exports = function(opts) {
@@ -41,10 +42,10 @@ function isModified(tsname, jsname) {
  */
 function compileTS (module) {
   var exitCode = 0;
-  var tmpDir = path.join(process.cwd(), options.tmpDir);
+  var tmpDir = path.join(options.tmpDir, "tsreq");
   var relativeFolder = path.dirname(path.relative(process.cwd(), module.filename));
   var jsname = path.join(tmpDir, relativeFolder, path.basename(module.filename, ".ts") + ".js");
-  
+
   if (!isModified(module.filename, jsname)) {
     return jsname;
   }
@@ -52,6 +53,7 @@ function compileTS (module) {
   var argv = [
     "node",
     "tsc.js",
+    !! options.emitOnError ? "" : "--noEmitOnError",
     "--nolib",
     "--rootDir",
     process.cwd(),
