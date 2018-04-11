@@ -1,7 +1,7 @@
-require('../../../');
+require('..');
 var assert = require('assert');
 
-var SomeClass = require('../src/Class').Something;
+var SomeClass = require('./assets/class').Something;
 
 describe('fix typescript-require import bug', function() {
   var sut;
