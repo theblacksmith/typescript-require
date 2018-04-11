@@ -31,10 +31,12 @@ export function configure(opts: TSROptions) {
   options = util.merge(options, opts);
 }
 
-require.extensions['.ts'] = require.extensions['.tsx'] = function(module: NodeModule) {
-  let jsname = compileTS(module);
-  runJS(jsname, module);
-};
+export function register(opts: TSROptions) {
+  require.extensions['.ts'] = require.extensions['.tsx'] = function(module: NodeModule) {
+    let jsname = compileTS(module);
+    runJS(jsname, module);
+  };
+}
 
 let projectBuilt: boolean | null = null;
 
@@ -67,6 +69,7 @@ function compileTS (module: NodeModule) {
     "--rootDir",
     process.cwd()
   ];
+
   if (options.projectDir && projectBuilt === null) {
     // For more complex projects it's better to set up a tsconfig.json file with the outDir set to
     // the tmpDir and let it compile them all when we first start up; in that case
