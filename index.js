@@ -2,17 +2,28 @@ var vm = require('vm');
 var fs = require('fs');
 var path = require('path');
 
+// This is an ugly hack, but many typescript things may need reflect-metadata;
+// sad fact is that the way this library loads typescript files and the way reflect-metadata
+// works are entirely incompatible. This is the simple but hacky workaround
+try { require('reflect-metadata'); } catch(e) {}
+
 var tsc = path.join(path.dirname(require.resolve("typescript")),"tsc.js");
-var tscScript = vm.createScript(fs.readFileSync(tsc, "utf8"), tsc);
-var libPath = path.join(path.dirname(require.resolve("typescript")), "lib.d.ts");
+var tscScript = new vm.Script(fs.readFileSync(tsc, "utf8"), {
+  filename: tsc
+});
+
+var disallowedOptions = ['outDir', 'outFile', 'rootDir'];
 
 var options = {
-  nodeLib: false,
-  targetES5: true,
-  moduleKind: 'commonjs',
-  emitOnError: false,
   exitOnError: true,
-  tmpDir: path.join(process.cwd(), 'tmp')
+  tmpDir: 'tmp/tsreq',
+  extraFiles: [],
+  projectDir: false,
+  tscOptions: {
+    target: "ES5",
+    module: "commonjs",
+    inlineSourceMap: null
+  }
 };
 
 module.exports = function(opts) {
@@ -36,14 +47,23 @@ function isModified(tsname, jsname) {
   return tsMTime > jsMTime;
 }
 
+var projectBuilt = null;
+
+/**
+ * if projectDir is specified return that otherwise return the current working directory.
+ **/
+function getTsRoot() {
+    return (options.projectDir ? options.projectDir : process.cwd());
+}
+
 /**
  * Compiles TypeScript file, returns js file path
  * @return {string} js file path
  */
 function compileTS (module) {
   var exitCode = 0;
-  var tmpDir = path.join(options.tmpDir, "tsreq");
-  var relativeFolder = path.dirname(path.relative(process.cwd(), module.filename));
+  var tmpDir = path.join(getTsRoot(), options.tmpDir);
+  var relativeFolder = path.dirname(path.relative(getTsRoot(), module.filename));
   var jsname = path.join(tmpDir, relativeFolder, path.basename(module.filename, ".ts") + ".js");
 
   if (!isModified(module.filename, jsname)) {
@@ -53,43 +73,71 @@ function compileTS (module) {
   var argv = [
     "node",
     "tsc.js",
-    !! options.emitOnError ? "" : "--noEmitOnError",
-    "--nolib",
-    "--rootDir",
-    process.cwd(),
-    "--target",
-    options.targetES5 ? "ES5" : "ES3", !! options.moduleKind ? "--module" : "", !! options.moduleKind ? options.moduleKind : "",
     "--outDir",
     tmpDir,
-    libPath,
-    options.nodeLib ? path.resolve(__dirname, "typings/node.d.ts") : null,
-    module.filename
+    "--rootDir",
+    process.cwd()
   ];
-
-  var proc = merge(merge({}, process), {
-    argv: compact(argv),
-    exit: function(code) {
-      if (code !== 0 && options.exitOnError) {
-        console.error('Fatal Error. Unable to compile TypeScript file. Exiting.');
-        process.exit(code);
+  if (options.projectDir && projectBuilt === null) {
+    // For more complex projects it's better to set up a tsconfig.json file with the outDir set to
+    // the tmpDir and let it compile them all when we first start up; in that case
+    argv = [
+      "node",
+      "tsc.js",
+      "-p",
+      options.projectDir
+    ];
+    projectBuilt = false;
+  } else {
+    Object.keys(options.tscOptions).forEach(function(k) {
+      if (options.tscOptions[k] === false || disallowedOptions.indexOf(k) > -1) {
+        // Ignore disallowed options; also, tsc doesn't ever require a "false" option, it just
+        // defaults to no for those unless specified otherwise, so ignore those too.
+        // When it's just a "true" then we don't need a value.
+        return;
       }
-      exitCode = code;
+      argv.push("--" + k);
+      if (options.tscOptions[k] && options.tscOptions[k] !== true) {
+        argv.push(options.tscOptions[k]);
+      }
+    });
+    argv = argv.concat(options.extraFiles);
+    argv.push(module.filename);
+  }
+
+  if (!projectBuilt) {
+    console.log(argv);
+    var proc = merge(merge({}, process), {
+      argv: compact(argv),
+      exit: function(code) {
+        if (code !== 0 && options.exitOnError) {
+          console.error('Fatal Error. Unable to compile TypeScript file. Exiting.');
+          process.exit(code);
+        }
+        exitCode = code;
+      }
+    });
+
+    var sandbox = {
+      process: proc,
+      require: require,
+      module: module,
+      Buffer: Buffer,
+      setTimeout: setTimeout,
+      __filename: tsc,
+      __dirname: path.dirname(tsc)
+    };
+
+    tscScript.runInNewContext(sandbox, {
+      filename: tsc
+    });
+    if (exitCode !== 0) {
+      throw new Error('Unable to compile TypeScript file.');
     }
-  });
-
-  var sandbox = {
-    process: proc,
-    require: require,
-    module: module,
-    Buffer: Buffer,
-    setTimeout: setTimeout,
-    clearTimeout: clearTimeout,
-    __filename: tsc
-  };
-
-  tscScript.runInNewContext(sandbox);
-  if (exitCode !== 0) {
-    throw new Error('Unable to compile TypeScript file.');
+    if (projectBuilt === false) {
+      // We're building the full project and only need to do it once
+      projectBuilt = true;
+    }
   }
 
   return jsname;
@@ -103,12 +151,16 @@ function runJS (jsname, module) {
     sandbox[k] = global[k];
   }
   sandbox.require = module.require.bind(module);
+  sandbox.require.cache = require.cache;
+  sandbox.require.resolve = require.resolve.bind(sandbox.require);
   sandbox.exports = module.exports;
   sandbox.__filename = jsname;
   sandbox.__dirname = path.dirname(module.filename);
   sandbox.module = module;
   sandbox.global = sandbox;
-  sandbox.root = root;
+  sandbox._global = global;
+  sandbox.Reflect = global.Reflect;
+  // sandbox.root = root; // jshint ignore:line
 
   return vm.runInNewContext(content, sandbox, { filename: jsname });
 }
@@ -125,7 +177,7 @@ function merge(a, b) {
 function compact(arr) {
   var narr = [];
   arr.forEach(function(data) {
-    if (data) narr.push(data);
+    if (data) { narr.push(data); }
   });
   return narr;
 }
