@@ -1,0 +1,14 @@
+Gulpfile.ts
+scripts
+src
+tests
+tmp
+tslint.json
+.editorconfig
+.gitattributes
+.gitmodules
+.travis.yml
+.circleci
+.vscode/
+package-lock.json
+yarn.lock
