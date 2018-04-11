@@ -45,7 +45,8 @@ It is possible to configure the require extension upon initialization:
     require('typescript-require')({
         nodeLib: false,
         targetES5: true,
-        exitOnError: true
+        exitOnError: true,
+        emitOnError: true
     });
 
 ### nodeLib [boolean] default: false
@@ -57,6 +58,15 @@ at the beginning of your ts modules.
 
 ### targetES5 [boolean] default: true
 Target ES5 / ES3 output mode.
+
+### exitOnError [boolean] default: true
+Calls `process.exit` if an error occurs during TypeScript compilation
+
+### tmpDir [string] default: ./tmp
+The directory underneath which output files should be placed
+
+### emitOnError [boolean] default: false
+Tells the TypeScript compiler whether or not to emit JS files if an error occurs.
 
 # Module Dependencies in TS files
 You can load any other TypeScript or Javascript module from your typescripts. However, you should
