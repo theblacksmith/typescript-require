@@ -23,9 +23,6 @@
     "type": "git",
     "url": "git@github.com:theblacksmith/typescript-require.git"
   },
-  "dependencies": {
-    "typescript": "^1.5.3"
-  },
   "keywords": [
     "typescript",
     "require"
@@ -39,6 +36,9 @@
     "mocha": "^2.0.1"
   },
   "optionalDependencies": {},
+  "peerDependencies": {
+    "typescript": "2.x"
+  },
   "engines": {
     "node": "*"
   },
