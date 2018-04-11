@@ -31,13 +31,14 @@
     "test": "mocha"
   },
   "devDependencies": {
+    "@types/node": "6",
     "chai": "^1.10.0",
     "cz-conventional-changelog": "^2.1.0",
     "mocha": "^2.0.1"
   },
   "optionalDependencies": {},
   "peerDependencies": {
-    "typescript": "2.x"
+    "typescript": "2"
   },
   "engines": {
     "node": "*"
