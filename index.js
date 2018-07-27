@@ -108,7 +108,7 @@ function runJS (jsname, module) {
   sandbox.__dirname = path.dirname(module.filename);
   sandbox.module = module;
   sandbox.global = sandbox;
-  sandbox.root = root;
+  sandbox.root = global;
 
   return vm.runInNewContext(content, sandbox, { filename: jsname });
 }
