@@ -1,25 +1,32 @@
-var vm = require('vm');
-var fs = require('fs');
-var path = require('path');
+var vm = require("vm");
+var fs = require("fs");
+var path = require("path");
 
-var tsc = path.join(path.dirname(require.resolve("typescript")),"tsc.js");
+var tsc = path.join(path.dirname(require.resolve("typescript")), "tsc.js");
 var tscScript = vm.createScript(fs.readFileSync(tsc, "utf8"), tsc);
-var libPath = path.join(path.dirname(require.resolve("typescript")), "lib.d.ts");
+var libPath = path.join(
+  path.dirname(require.resolve("typescript")),
+  "lib.d.ts"
+);
 
 var options = {
+  /**
+   * @deprecated Will always be included
+   */
   nodeLib: false,
   targetES5: true,
-  moduleKind: 'commonjs',
+  moduleKind: "commonjs",
   emitOnError: false,
   exitOnError: true,
-  tmpDir: path.join(process.cwd(), 'tmp')
+  tmpDir: path.join(process.cwd(), "tmp"),
+  lib: ["DOM", "ScriptHost", "ES5", "ES6", "ES7", "esnext"],
 };
 
-module.exports = function(opts) {
+module.exports = function (opts) {
   options = merge(options, opts);
 };
 
-require.extensions['.ts'] = function(module) {
+require.extensions[".ts"] = function (module) {
   var jsname = compileTS(module);
   runJS(jsname, module);
 };
@@ -30,7 +37,8 @@ function isModified(tsname, jsname) {
 
   try {
     jsMTime = fs.statSync(jsname).mtime;
-  } catch (e) { //catch if file does not exists
+  } catch (e) {
+    //catch if file does not exists
   }
 
   return tsMTime > jsMTime;
@@ -40,11 +48,17 @@ function isModified(tsname, jsname) {
  * Compiles TypeScript file, returns js file path
  * @return {string} js file path
  */
-function compileTS (module) {
+function compileTS(module) {
   var exitCode = 0;
   var tmpDir = path.join(options.tmpDir, "tsreq");
-  var relativeFolder = path.dirname(path.relative(process.cwd(), module.filename));
-  var jsname = path.join(tmpDir, relativeFolder, path.basename(module.filename, ".ts") + ".js");
+  var relativeFolder = path.dirname(
+    path.relative(process.cwd(), module.filename)
+  );
+  var jsname = path.join(
+    tmpDir,
+    relativeFolder,
+    path.basename(module.filename, ".ts") + ".js"
+  );
 
   if (!isModified(module.filename, jsname)) {
     return jsname;
@@ -53,28 +67,31 @@ function compileTS (module) {
   var argv = [
     "node",
     "tsc.js",
-    !! options.emitOnError ? "" : "--noEmitOnError",
-    "--nolib",
+    !!options.emitOnError ? "" : "--noEmitOnError",
     "--rootDir",
     process.cwd(),
     "--target",
-    options.targetES5 ? "ES5" : "ES3", !! options.moduleKind ? "--module" : "", !! options.moduleKind ? options.moduleKind : "",
+    options.targetES5 ? "ES5" : "ES3",
+    !!options.moduleKind ? "--module" : "",
+    !!options.moduleKind ? options.moduleKind : "",
     "--outDir",
     tmpDir,
-    libPath,
-    options.nodeLib ? path.resolve(__dirname, "typings/node.d.ts") : null,
-    module.filename
+    "--lib",
+    Array.isArray(options.lib) ? options.lib.join(",") : options.lib,
+    module.filename,
   ];
 
   var proc = merge(merge({}, process), {
     argv: compact(argv),
-    exit: function(code) {
+    exit: function (code) {
       if (code !== 0 && options.exitOnError) {
-        console.error('Fatal Error. Unable to compile TypeScript file. Exiting.');
+        console.error(
+          "Fatal Error. Unable to compile TypeScript file. Exiting."
+        );
         process.exit(code);
       }
       exitCode = code;
-    }
+    },
   });
 
   var sandbox = {
@@ -84,19 +101,19 @@ function compileTS (module) {
     Buffer: Buffer,
     setTimeout: setTimeout,
     clearTimeout: clearTimeout,
-    __filename: tsc
+    __filename: tsc,
   };
 
   tscScript.runInNewContext(sandbox);
   if (exitCode !== 0) {
-    throw new Error('Unable to compile TypeScript file.');
+    throw new Error("Unable to compile TypeScript file.");
   }
 
   return jsname;
 }
 
-function runJS (jsname, module) {
-  var content = fs.readFileSync(jsname, 'utf8');
+function runJS(jsname, module) {
+  var content = fs.readFileSync(jsname, "utf8");
 
   var sandbox = {};
   for (var k in global) {
@@ -124,7 +141,7 @@ function merge(a, b) {
 
 function compact(arr) {
   var narr = [];
-  arr.forEach(function(data) {
+  arr.forEach(function (data) {
     if (data) narr.push(data);
   });
   return narr;
