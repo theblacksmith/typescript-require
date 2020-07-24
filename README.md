@@ -1,3 +1,7 @@
+# Heads up!
+
+This package hasn't been maintained in a loooong time. You may wanna check [ts-node](https://www.npmjs.com/package/ts-node) or [ts-import](https://www.npmjs.com/package/ts-import)
+
 # TypeScript Require Extension
 
 This is a Node.JS `require` extension that enables requiring typescript modules without any preprocessing.
