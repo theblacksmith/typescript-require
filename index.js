@@ -20,6 +20,7 @@ var options = {
   exitOnError: true,
   tmpDir: path.join(process.cwd(), "tmp"),
   lib: ["DOM", "ScriptHost", "ES5", "ES6", "ES7", "esnext"],
+  cliOptions: [],
 };
 
 module.exports = function (opts) {
@@ -79,6 +80,7 @@ function compileTS(module) {
     "--lib",
     Array.isArray(options.lib) ? options.lib.join(",") : options.lib,
     module.filename,
+    ...options.cliOptions,
   ];
 
   var proc = merge(merge({}, process), {
