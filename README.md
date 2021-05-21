@@ -53,6 +53,7 @@ It is possible to configure the require extension upon initialization:
         targetES5: true,
         exitOnError: true,
         emitOnError: true
+        cliOptions: ['--skipLibCheck']
     });
 
 ### nodeLib [boolean] default: false
@@ -78,6 +79,10 @@ The directory underneath which output files should be placed
 ### emitOnError [boolean] default: false
 
 Tells the TypeScript compiler whether or not to emit JS files if an error occurs.
+
+### emitOnError [string[]] default: []
+
+Will be appended to the tsc command line options.
 
 # Module Dependencies in TS files
 
